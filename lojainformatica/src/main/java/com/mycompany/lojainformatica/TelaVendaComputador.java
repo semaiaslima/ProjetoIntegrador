@@ -4,6 +4,10 @@
  */
 package com.mycompany.lojainformatica;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author semaias.olima
@@ -172,9 +176,11 @@ public class TelaVendaComputador extends javax.swing.JFrame {
 
         bgSO.add(tgWindows);
         tgWindows.setText("Windows");
+        tgWindows.setActionCommand("Windows");
 
         bgSO.add(tgLinux);
         tgLinux.setText("Linux");
+        tgLinux.setActionCommand("Linux");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -279,6 +285,11 @@ public class TelaVendaComputador extends javax.swing.JFrame {
         );
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -286,15 +297,14 @@ public class TelaVendaComputador extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnAdicionar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,9 +319,9 @@ public class TelaVendaComputador extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(btnAdicionar)
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 21, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -325,12 +335,65 @@ public class TelaVendaComputador extends javax.swing.JFrame {
     }//GEN-LAST:event_rboPCActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        // TODO add your handling code here:
+        int indiceLinha = tblCompras.getSelectedRow();
+        if(indiceLinha>=0){
+            DefaultTableModel modelo = (DefaultTableModel) tblCompras.getModel();
+            modelo.removeRow(indiceLinha);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione uma linha!");
+                    
+        }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        String tipoComputador = "";
+        if(rboPC.isSelected()){
+            tipoComputador = rboPC.getText();
+        }else if(rboNotebook.isSelected()){
+            tipoComputador = rboNotebook.getText();
+        }else if(rboServidor.isSelected()){
+            tipoComputador = rboServidor.getText();
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione um tipo de PC");
+        }
+        
+        String sistemaOperacional = "";
+        sistemaOperacional = bgSO.getSelection().getActionCommand();
+        
+        String tipoHD = "";
+        tipoHD = cboHD.getSelectedItem().toString();
+        
+        String acessorios ="";
+        if(chkMochila.isSelected()){
+            acessorios += chkMochila.getText() + ", ";
+        }
+        if(chkHUB.isSelected()){
+            acessorios += chkHUB.getText() + ", ";
+        }
+        if(chkMouse.isSelected()){
+            acessorios += chkMouse.getText() + ", ";
+        }
+        
+        String itensLista = "" ;
+        List<String> listaItens = lstServicos.getSelectedValuesList();
+        
+        for (String item: listaItens){
+            itensLista += item + ", ";
+        }
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblCompras.getModel();
+        modelo.addRow(new String[]{tipoComputador,
+                                    sistemaOperacional,
+                                    tipoHD,
+                                    acessorios,
+                                    itensLista                            
+        });
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     /**
      * @param args the command line arguments
